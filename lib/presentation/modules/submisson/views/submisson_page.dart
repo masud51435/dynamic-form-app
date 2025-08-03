@@ -1,3 +1,4 @@
+import 'package:dynamicformapp/core/constants/app_colors.dart';
 import 'package:dynamicformapp/core/utils/form_data_helper.dart';
 import 'package:dynamicformapp/presentation/modules/submisson/controller/submisson_controller.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class SubmissionPage extends GetView<SubmissionController> {
                       section.name,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue[800],
+                        color: blackColor,
                       ),
                     ),
                     const Divider(height: 20, thickness: 1),

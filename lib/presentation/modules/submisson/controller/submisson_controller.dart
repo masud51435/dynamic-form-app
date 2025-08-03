@@ -1,9 +1,10 @@
-import 'dart:convert';
+import 'package:dynamicformapp/core/utils/invoice_generator.dart';
 import 'package:dynamicformapp/data/models/form_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
 
 class SubmissionController extends GetxController {
   late FormModel form;
@@ -20,39 +21,54 @@ class SubmissionController extends GetxController {
   }
 
   Future<void> saveToFile() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      status = await Permission.storage.request();
-    }
+    final fileName = 'invoice_${DateTime.now().millisecondsSinceEpoch}.pdf';
 
-    if (status.isGranted) {
-      final dir = await getExternalStoragePublicDirectory();
-      final fileName =
-          '${form.formName.replaceAll(" ", "_")}_${DateTime.now().millisecondsSinceEpoch}.json';
-      final file = File('${dir.path}/$fileName');
+    try {
+      // Generate PDF bytes
+      final pdfBytes = await InvoiceGenerator.generateInvoice(
+        form,
+        values,
+        images,
+      );
 
-      final Map<String, dynamic> export = {
-        'formName': form.formName,
-        'submittedAt': DateTime.now().toIso8601String(),
-        'fields': values,
-      };
+      // Save to app's private storage (always works)
+      final appDir = await getApplicationDocumentsDirectory();
+      final privateFile = File('${appDir.path}/$fileName');
+      await privateFile.writeAsBytes(pdfBytes);
+      debugPrint('Saved to private storage: ${privateFile.path}');
 
-      await file.writeAsString(jsonEncode(export));
-      Get.snackbar("Saved", "Saved to ${file.path}");
-    } else if (status.isPermanentlyDenied) {
-      Get.snackbar("Permission Denied", "Storage permission is permanently denied. Please enable it in app settings.",
-          duration: Duration(seconds: 5));
-      await openAppSettings();
-    } else {
-      Get.snackbar("Permission Denied", "Storage permission is required to save the file.");
-    }
-  }
+      // For Android, try to save to Downloads folder
+      if (Platform.isAndroid) {
+        try {
+          final downloadsDir = Directory('/storage/emulated/0/Download');
+          if (await downloadsDir.exists()) {
+            final publicFile = File('${downloadsDir.path}/$fileName');
+            await publicFile.writeAsBytes(pdfBytes);
+            debugPrint('Saved to Downloads: ${publicFile.path}');
+          }
+        } catch (e) {
+          debugPrint('Could not save to Downloads: $e');
+        }
+      }
 
-  Future<Directory> getExternalStoragePublicDirectory() async {
-    if (Platform.isAndroid) {
-      return Directory("/storage/emulated/0/Download");
-    } else {
-      return await getApplicationDocumentsDirectory();
+      Get.snackbar("Saved Successfully", "Invoice saved as $fileName");
+
+      // Optionally open the file
+      if (Platform.isAndroid) {
+        try {
+          final externalDir = await getExternalStorageDirectory();
+          OpenFile.open('${externalDir!.path}/$fileName');
+        } catch (e) {
+          debugPrint('Could not open file: $e');
+        }
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Failed to save invoice: ${e.toString()}",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 5),
+      );
     }
   }
 }
