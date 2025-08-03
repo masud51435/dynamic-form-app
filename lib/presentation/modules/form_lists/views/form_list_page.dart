@@ -9,18 +9,48 @@ class FormListPage extends GetView<FormListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Available Forms")),
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        title: const Text("Available Forms"),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+      ),
       body: Obx(() {
         return ListView.builder(
+          padding: const EdgeInsets.all(12.0),
           itemCount: controller.forms.length,
           itemBuilder: (context, index) {
             final form = controller.forms[index];
-            return ListTile(
-              title: Text(form.formName),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Get.toNamed(Routes.FORM, arguments: form);
-              },
+            return Container(
+              margin: const EdgeInsets.only(bottom: 15),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 12.0,
+                  horizontal: 16.0,
+                ),
+                title: Text(
+                  form.formName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+                subtitle: Text("ID: ${form.id}"),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.blueAccent,
+                  size: 20,
+                ),
+                onTap: () {
+                  Get.toNamed(Routes.FORM, arguments: form);
+                },
+              ),
             );
           },
         );
