@@ -1,3 +1,4 @@
+import 'package:dynamicformapp/core/constants/app_colors.dart';
 import 'package:dynamicformapp/presentation/modules/submisson/controller/submisson_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,9 +81,23 @@ class SubmissionPage extends GetView<SubmissionController> {
             }),
             const SizedBox(height: 20),
             ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                fixedSize: const Size(double.maxFinite, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
               onPressed: controller.saveToFile,
-              icon: const Icon(Icons.save),
-              label: const Text("Save to Device"),
+              icon: const Icon(Icons.save, color: whiteColor),
+              label: const Text(
+                "Save to Device",
+                style: TextStyle(
+                  color: whiteColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         ),

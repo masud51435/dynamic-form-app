@@ -1,5 +1,8 @@
 import 'dart:io';
+import 'package:dynamicformapp/core/constants/app_colors.dart';
 import 'package:dynamicformapp/data/models/field_model.dart';
+import 'package:dynamicformapp/presentation/common/app_dropdown_button.dart';
+import 'package:dynamicformapp/presentation/common/app_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,14 +19,12 @@ class FieldWidgetFactory {
       case 1: // TextField
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: TextFormField(
+          child: AppTextField(
             initialValue: value,
+            labelText: props.label,
+            hintText: props.hintText,
             onChanged: onChanged,
-            decoration: InputDecoration(
-              labelText: props.label,
-              hintText: props.hintText,
-              errorText: error,
-            ),
+            errorText: error,
           ),
         );
       case 2: // List (dropdown or checkbox)
@@ -31,13 +32,20 @@ class FieldWidgetFactory {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(props.label),
+              Text(
+                props.label,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: darkColor.withOpacity(0.3),
+                ),
+              ),
               ...(props.listItems ?? []).map((item) {
                 return CheckboxListTile(
                   value: (value is List && value.contains(item['value']))
                       ? true
                       : false,
                   title: Text(item['name']),
+                  activeColor: blueColor,
                   onChanged: (bool? checked) {
                     List current = List.from((value is List) ? value : []);
                     if (checked == true) {
@@ -58,18 +66,17 @@ class FieldWidgetFactory {
         } else {
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: DropdownButtonFormField(
-              decoration: InputDecoration(
-                labelText: props.label,
-                errorText: error,
-              ),
+            child: AppDropdownButton(
+              labelText: props.label,
+              errorText: error,
+              hintText: props.hintText,
               value: value == "" ? null : value,
               onChanged: onChanged,
               items: (props.listItems ?? [])
                   .map(
-                    (item) => DropdownMenuItem(
+                    (item) => AppDropdownMenuItem(
+                      name: item['name'],
                       value: item['value'],
-                      child: Text(item['name']),
                     ),
                   )
                   .toList(),
@@ -82,7 +89,13 @@ class FieldWidgetFactory {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(props.label),
+              Text(
+                props.label,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: darkColor.withOpacity(0.3),
+                ),
+              ),
               Row(
                 children: ['Yes', 'No', 'NA'].map((opt) {
                   return Row(
@@ -91,6 +104,7 @@ class FieldWidgetFactory {
                         value: opt,
                         groupValue: value,
                         onChanged: onChanged,
+                        fillColor: MaterialStateProperty.all(blueColor),
                       ),
                       Text(opt),
                     ],
@@ -108,7 +122,13 @@ class FieldWidgetFactory {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(props.label),
+              Text(
+                props.label,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: darkColor.withOpacity(0.3),
+                ),
+              ),
               ElevatedButton.icon(
                 icon: Icon(Icons.camera_alt),
                 label: Text("Pick Image"),
