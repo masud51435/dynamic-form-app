@@ -126,3 +126,8 @@ Contributions are welcome! If you have any suggestions, bug reports, or feature 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+- **Email:** masudrana82955@gmail.com
+- **Phone:** 01829346266
