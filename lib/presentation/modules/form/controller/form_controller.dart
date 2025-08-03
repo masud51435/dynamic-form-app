@@ -43,25 +43,46 @@ class FormController extends GetxController {
       for (var field in section.fields) {
         final value = fieldValues[field.key];
         final props = field.properties;
-        if (props.type == 'text') {
-          if ((props.minLength != null &&
-                  (value?.length ?? 0) < props.minLength!) ||
-              (props.maxLength != null &&
-                  (value?.length ?? 0) > props.maxLength!)) {
-            fieldErrors[field.key] = 'Invalid input length';
+
+        // Check for required fields
+        if (props.required == true) {
+          if (value == null || value.toString().isEmpty) {
+            fieldErrors[field.key] = 'This field is required.';
+            continue; // Skip other checks if the field is empty
           }
-        } else if (props.type == 'dropDownList' &&
-            (value == null || value == '')) {
-          fieldErrors[field.key] = 'Required';
-        } else if (props.type == 'checkBoxList' &&
-            (value == null || (value as List).isEmpty)) {
-          fieldErrors[field.key] = 'Select at least one';
-        } else if (props.type == 'yesno' && (value == null || value == '')) {
-          fieldErrors[field.key] = 'Required';
+        }
+
+        // Text field validation
+        if (props.type == 'text') {
+          if (props.minLength != null && (value?.length ?? 0) < props.minLength!) {
+            fieldErrors[field.key] = 'Must be at least ${props.minLength} characters.';
+          } else if (props.maxLength != null && (value?.length ?? 0) > props.maxLength!) {
+            fieldErrors[field.key] = 'Cannot be more than ${props.maxLength} characters.';
+          }
+        }
+
+        // Dropdown validation
+        else if (props.type == 'dropDownList' && (value == null || value == '')) {
+          fieldErrors[field.key] = 'Please make a selection.';
+        }
+
+        // Checkbox list validation
+        else if (props.type == 'checkBoxList' && (value == null || (value as List).isEmpty)) {
+          fieldErrors[field.key] = 'Please select at least one option.';
+        }
+
+        // Yes/No validation
+        else if (props.type == 'yesno' && (value == null || value == '')) {
+          fieldErrors[field.key] = 'Please select an option.';
+        }
+
+        // Image picker validation
+        else if (props.type == 'image' && (imageFiles[field.key] == null || imageFiles[field.key]!.isEmpty)) {
+          fieldErrors[field.key] = 'Please pick an image.';
         }
       }
     }
     update();
-    return fieldErrors.isEmpty;
+    return fieldErrors.values.every((e) => e == null);
   }
 }

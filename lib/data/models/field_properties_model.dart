@@ -9,6 +9,7 @@ class FieldPropertiesModel {
   final String label;
   final bool? multiSelect;
   final List<Map<String, dynamic>>? listItems;
+  final bool? required;
 
   FieldPropertiesModel({
     required this.type,
@@ -19,6 +20,7 @@ class FieldPropertiesModel {
     this.maxLength,
     this.multiSelect,
     this.listItems,
+    this.required,
   });
 
   factory FieldPropertiesModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class FieldPropertiesModel {
       maxLength: json['maxLength'],
       multiSelect: json['multiSelect'],
       listItems: parsedListItems,
+      required: json['required'],
     );
   }
 }
