@@ -77,7 +77,15 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
               final file = entry.value;
               return Stack(
                 children: [
-                  Image.file(file, height: 80, width: 80, fit: BoxFit.cover),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.file(
+                      file,
+                      height: 90,
+                      width: 90,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   Positioned(
                     top: -10,
                     right: -10,

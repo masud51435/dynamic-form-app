@@ -5,7 +5,6 @@ import 'package:dynamicformapp/presentation/common/app_dropdown_button.dart';
 import 'package:dynamicformapp/presentation/common/app_text_field.dart';
 import 'package:dynamicformapp/presentation/common/image_picker_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class FieldWidgetFactory {
   static Widget build({
