@@ -20,11 +20,12 @@ class SubmissionPage extends GetView<SubmissionController> {
         padding: const EdgeInsets.all(16.0),
         children: [
           ...controller.form.sections.map((section) {
-            return Card(
-              elevation: 4,
-              margin: const EdgeInsets.only(bottom: 16),
-              shape: RoundedRectangleBorder(
+            return Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[300]!),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
