@@ -3,6 +3,7 @@ import 'package:dynamicformapp/core/constants/app_colors.dart';
 import 'package:dynamicformapp/data/models/field_model.dart';
 import 'package:dynamicformapp/presentation/common/app_dropdown_button.dart';
 import 'package:dynamicformapp/presentation/common/app_text_field.dart';
+import 'package:dynamicformapp/presentation/common/image_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -129,32 +130,13 @@ class FieldWidgetFactory {
                   color: darkColor.withOpacity(0.3),
                 ),
               ),
-              ElevatedButton.icon(
-                icon: Icon(Icons.camera_alt),
-                label: Text("Pick Image"),
-                onPressed: () async {
-                  final picked = await ImagePicker().pickMultiImage();
-                  if (picked.isNotEmpty) {
-                    onImagePicked?.call(
-                      picked.map((e) => File(e.path)).toList(),
-                    );
-                  }
+              const SizedBox(height: 6),
+              ImagePickerWidget(
+                initialImages: value is List<File> ? value : [],
+                onImagePicked: (files) {
+                  onImagePicked?.call(files);
                 },
               ),
-              const SizedBox(height: 6),
-              if (value is List<File>)
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: value.map<Widget>((f) {
-                    return Image.file(
-                      f,
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.cover,
-                    );
-                  }).toList(),
-                ),
             ],
           ),
         );
