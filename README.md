@@ -1,8 +1,10 @@
 # Dynamic Form App
 
-![GitHub repo size](https://img.shields.io/github/repo-size/your-username/your-repo-name?style=for-the-badge)
-![GitHub stars](https://img.shields.io/github/stars/your-username/your-repo-name?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/your-username/your-repo-name?style=for-the-badge)
+**Repository:** [https://github.com/masud51435/dynamic-form-app](https://github.com/masud51435/dynamic-form-app)
+
+![GitHub repo size](https://img.shields.io/github/repo-size/masud51435/dynamic-form-app?style=for-the-badge)
+![GitHub stars](https://img.shields.io/github/stars/masud51435/dynamic-form-app?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/masud51435/dynamic-form-app?style=for-the-badge)
 
 A Flutter application that dynamically builds forms from JSON data, allowing users to fill them out and generate a PDF invoice.
 
