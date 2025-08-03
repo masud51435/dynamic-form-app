@@ -1,5 +1,3 @@
-import 'package:dynamicformapp/data/models/form_model.dart';
-
 class FormDataHelper {
   static String getDisplayValue(dynamic value, List<Map<String, dynamic>>? listItems) {
     if (listItems == null || value == null) {
