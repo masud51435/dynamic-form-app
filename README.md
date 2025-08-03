@@ -33,9 +33,9 @@ A Flutter application that dynamically builds forms from JSON data, allowing use
 
 ## Screenshots
 
-| Form List | Form View | Submission View |
-| :---: | :---: | :---: |
-| ![Form List](https://via.placeholder.com/300x600.png?text=Form+List+Screenshot) | ![Form View](https://via.placeholder.com/300x600.png?text=Form+View+Screenshot) | ![Submission View](https://via.placeholder.com/300x600.png?text=Submission+View+Screenshot) |
+| Form List | Form View | Submission View | Invoice |
+| :---: | :---: | :---: | :---: |
+| ![Form List](./assets/images/formList.png) | ![Form View](./assets/images/formview.png) | ![Submission View](./assets/images/submisson.png) | ![Invoice](./assets/images/invoice.png) |
 
 ## Getting Started
 
